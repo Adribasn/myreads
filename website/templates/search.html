@@ -8,4 +8,40 @@
         Search
     </button>
 </form>
+{% if data %}
+<ul class="list-group mt-4 mb-4">
+{% for element in data['items'] %}
+<li class="list-group-item d-flex align-items-center">
+    {{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}
+    <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#modal_{{ element['volumeInfo']['industryIdentifiers'][0]['identifier'] }}">Add</button>
+</li>
+<div class="modal" tabindex="-1" id="modal_{{ element['volumeInfo']['industryIdentifiers'][0]['identifier'] }}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">{{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</h5>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <p class="fw-bold text-center">Author</p>
+                        <p class="text-center">{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</p>
+                    </li>
+                    <li class="list-group-item">
+                        <p class="fw-bold text-center">Publisher</p>
+                        <p class="text-center">{{ element['volumeInfo']['publisher'] }}</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</ul>
+{% endif %}
+
 {% endblock %}

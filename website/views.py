@@ -22,6 +22,8 @@ def search():
             r = requests.get(url)
             data = r.json()
             for element in data['items']:
-                print(element['volumeInfo']['title'])
+                print(element['volumeInfo'])
+            
+            return render_template('search.html', user=current_user, data=data)
         
     return render_template('search.html', user=current_user)
