@@ -18,7 +18,7 @@ def search():
         book = request.form.get('book')
 
         if book:
-            url = f'https://www.googleapis.com/books/v1/volumes?q={book}:keyes&key={api_key}'
+            url = f'https://www.googleapis.com/books/v1/volumes?q={book}&langRestrict=en'
             r = requests.get(url)
             data = r.json()
             for element in data['items']:
