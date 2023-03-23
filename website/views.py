@@ -22,8 +22,6 @@ def search():
                 url = f'https://www.googleapis.com/books/v1/volumes?q={book}&langRestrict=en'
                 r = requests.get(url)
                 data = r.json()
-                for element in data['items']:
-                    print(element['volumeInfo'])
                 
                 return render_template('search.html', user=current_user, data=data)
         else:

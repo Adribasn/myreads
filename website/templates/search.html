@@ -13,44 +13,53 @@
 <ul class="list-group mt-4 mb-4">
 {% for element in data['items'] %}
 <li class="list-group-item d-flex align-items-center">
-    {{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}
+   
+    <img src="{{ url_for('static', filename='missingCover.jpg') }}" class="img-fluid"/>
+    <div class="d-flex flex-column">
+        <h4 class="fw-bold">{{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</h4>
+        <p class="w-75">{{ element['volumeInfo']['description'] }}</p>
+    </div>
     <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#modal_{{ data['items'].index(element) }}">Add</button>
 </li>
 <div class="modal" tabindex="-1" id="modal_{{ data['items'].index(element) }}">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title text-center">{{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</h5>
-            </div>
-            <div class="modal-body">
-                <div class="container">
-                    <div class="row border rounded-top">
-                        <div class="col border-end">
-                            <p class="fw-bold text-center">Author</p>
-                            <p class="text-center">{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</p>
-                        </div>
-                        <div class="col">
-                            <p class="fw-bold text-center">Publisher</p>
-                            <p class="text-center">{{ element['volumeInfo']['publisher'] }}</p>
-                        </div>
-                    </div>
-                    <div class="row border rounded-bottom">
-                        <p class="fw-bold text-center">Description</p>
-                        <p class="text-center">{{ element['volumeInfo']['description'] }}</p>
-                    </div>  
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <form method="POST">
+            <form method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center">{{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</h5>
                     <input type="hidden" name="title" id="title" value="{{ element['volumeInfo']['title'] }}">
-                    <input type="hidden" name="authors" id="authors" value="{{ element['volumeInfo']['authors'] }}">
-                    <input type="hidden" name="publisher" id="publisher" value="{{ element['volumeInfo']['publisher'] }}">
-                    <input type="hidden" name="date" id="date" value="{{ element['volumeInfo']['publishedDate'] }}">
-                    <input type="hidden" name="description" id="description" value="{{ element['volumeInfo']['description'] }}">
-                    <button type="submit" class="btn btn-primary" name="saveBook" id="saveBook">Save</button>
-                </form>
-            </div>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row border rounded-top">
+                            <div class="col border-end">
+                                <p class="fw-bold text-center">Author</p>
+                                <p class="text-center">{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</p>
+                                <input type="hidden" name="authors" id="authors" value="{{ element['volumeInfo']['authors'] }}">
+                            </div>
+                            <div class="col">
+                                <p class="fw-bold text-center">Publisher</p>
+                                <p class="text-center">{{ element['volumeInfo']['publisher'] }}</p>
+                                <input type="hidden" name="publisher" id="publisher" value="{{ element['volumeInfo']['publisher'] }}">
+                            </div>
+                        </div>
+                        <div class="row border">
+                            <p class="fw-bold text-center">Publishing Date</p>
+                            <p class="text-center">{{ element['volumeInfo']['publishedDate'] }}</p>
+                            <input type="hidden" name="date" id="date" value="{{ element['volumeInfo']['publishedDate'] }}">                    
+                        </div>
+                        <div class="row border rounded-bottom d-flex flex-column justify-content-center align-items-center">
+                            <p class="fw-bold text-center">Rating</p>
+                            <input type="number" min="0" max="5" step="1" class="form-control w-50 mb-2" placeholder="0">
+                        </div>
+                        <input type="hidden" name="publisher" id="publisher" value="{{ element['volumeInfo']['publisher'] }}">  
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" name="saveBook" id="saveBook">Save</button>                    
+                </div>
+            </form>
         </div>
     </div>
 </div>
