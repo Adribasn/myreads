@@ -14,6 +14,8 @@ class Book(db.Model):
     authors = db.Column(db.String)
     publisher = db.Column(db.String)
     date = db.Column(db.String)
+    rating = db.Column(db.Integer)
     description = db.Column(db.String)
+    imageLink = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 

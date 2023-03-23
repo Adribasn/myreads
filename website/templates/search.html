@@ -50,9 +50,9 @@
                         </div>
                         <div class="row border rounded-bottom d-flex flex-column justify-content-center align-items-center">
                             <p class="fw-bold text-center">Rating</p>
-                            <input type="number" min="0" max="5" step="1" class="form-control w-50 mb-2" placeholder="0">
+                            <input type="number" name="rating" id="rating" min="0" max="5" step="1" class="form-control w-50 mb-2" placeholder="0">
                         </div>
-                        <input type="hidden" name="publisher" id="publisher" value="{{ element['volumeInfo']['publisher'] }}">  
+                        <input type="hidden" name="description" id="description" value="{{ element['volumeInfo']['description'] }}">  
                     </div>
                 </div>
                 <div class="modal-footer">

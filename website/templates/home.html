@@ -1,5 +1,17 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>{{ user.firstName }}</h1>
+<h1>{{ user.firstName }}, here are your saved books.</h1>
+<ul class="list-group">
+{% for book in user.books %}
+<li class="list-group-item">
+    <h5 class="fw-bold">{{ book.title }}</h5>
+    <h5>{{ book.authors }}</h5>
+    <h5>{{ book.publisher }}</h5>
+    <h5>{{ book.date }}</h5>
+    <h5>{{ book.rating }}</h5>
+    <h5>{{ book.description }}</h5>
+</li>
+{% endfor %}
+</ul>
 {% endblock %}
