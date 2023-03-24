@@ -20,7 +20,7 @@
     {% endif %}
     <div class="d-flex flex-column">
         <h4 class="fw-bold">{{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</h4>
-        <p class="w-75">{{ element['volumeInfo']['description'] }}</p>
+        <p class="w-75">{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}</p>
     </div>
     <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#modal_{{ data['items'].index(element) }}">Add</button>
 </li>
@@ -29,7 +29,7 @@
         <div class="modal-content">
             <form method="POST">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center">{{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</h5>
+                    <h5 class="modal-title text-center">{{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['title'] %} {{ element['volumeInfo']['title'] }} {% else %} (Unknown) {% endif %}</h5>
                     <input type="hidden" name="title" id="title" value="{{ element['volumeInfo']['title'] }}">
                 </div>
                 <div class="modal-body">
@@ -38,24 +38,24 @@
                             <div class="col border-end">
                                 <p class="fw-bold text-center">Author</p>
                                 <p class="text-center">{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</p>
-                                <input type="hidden" name="authors" id="authors" value="{{ element['volumeInfo']['authors'] }}">
+                                <input type="hidden" name="authors" id="authors" value="{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}">
                             </div>
                             <div class="col">
                                 <p class="fw-bold text-center">Publisher</p>
-                                <p class="text-center">{{ element['volumeInfo']['publisher'] }}</p>
-                                <input type="hidden" name="publisher" id="publisher" value="{{ element['volumeInfo']['publisher'] }}">
+                                <p class="text-center">{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}</p>
+                                <input type="hidden" name="publisher" id="publisher" value="{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}">
                             </div>
                         </div>
                         <div class="row border">
                             <p class="fw-bold text-center">Publishing Date</p>
-                            <p class="text-center">{{ element['volumeInfo']['publishedDate'] }}</p>
-                            <input type="hidden" name="date" id="date" value="{{ element['volumeInfo']['publishedDate'] }}">                    
+                            <p class="text-center">{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}</p>
+                            <input type="hidden" name="date" id="date" value="{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}">                    
                         </div>
                         <div class="row border rounded-bottom d-flex flex-column justify-content-center align-items-center">
                             <p class="fw-bold text-center">Rating</p>
                             <input type="number" name="rating" id="rating" min="0" max="5" step="1" class="form-control w-50 mb-2" placeholder="0">
                         </div>
-                        <input type="hidden" name="description" id="description" value="{{ element['volumeInfo']['description'] }}">  
+                        <input type="hidden" name="description" id="description" value="{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}">  
                         {% if element['volumeInfo']['imageLinks'] is defined %}
                         <input type="hidden" name="imageLink" id="imageLink" value="{{ element['volumeInfo']['imageLinks']['smallThumbnail'] }}" />
                         {% else %}
