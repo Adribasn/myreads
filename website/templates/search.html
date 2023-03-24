@@ -13,7 +13,6 @@
 <ul class="list-group mt-4 mb-4">
 {% for element in data['items'] %}
 <li class="list-group-item d-flex align-items-center">
-   
     <img src="{{ url_for('static', filename='missingCover.jpg') }}" class="img-fluid"/>
     <div class="d-flex flex-column">
         <h4 class="fw-bold">{{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</h4>

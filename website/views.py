@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, flash, url_for
+from flask import Blueprint, render_template, request, redirect, flash, url_for, jsonify
 from flask_login import login_required, current_user
 import requests
 from . import db
 from .models import Book
+import json
 
 views = Blueprint('views', __name__)
 
@@ -33,7 +34,8 @@ def search():
             date = request.form.get('date')
             rating = request.form.get('rating')
             description = request.form.get('description')
-            imageLink = 'website\static\missingCover.jpg'
+            imageLink = '.\static\missingCover.jpg'
+
             new_book  = Book(title=title, authors=authors, publisher=publisher, date=date, rating=rating, description=description, imageLink=imageLink, user_id=current_user.id)
             print(new_book.title)
             db.session.add(new_book)
@@ -42,3 +44,15 @@ def search():
             return redirect(url_for('views.home'))
         
     return render_template('search.html', user=current_user)
+
+@views.route('/delete-book', methods=['POST'])
+def delete_book():
+    data = json.loads(request.data)
+    bookId = data['bookId']
+    book = Book.query.get(bookId)
+    if book:
+        if book.user_id == current_user.id:
+            db.session.delete(book)
+            db.session.commit()
+
+    return jsonify({})
