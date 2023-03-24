@@ -5,13 +5,14 @@
 <ul class="list-group">
 {% for book in user.books %}
 <li class="list-group-item d-flex align-items-center">
-    <div class="w-75">
+    <img src="{{ book.imageLink }}" alt="cover" class="image-fluid me-5">
+    <div class="w-50">
         <h5 class="fw-bold">{{ book.title }}</h5>
         <h5>{{ book.authors }}</h5>
         <h5>{{ book.publisher }}</h5>
         <h5>{{ book.date }}</h5>
         <h5>{{ book.rating }}</h5>
-        <h5>{{ book.description }}</h5>
+        <p>{{ book.description }}</p>
     </div>
     <button class="btn btn-danger ms-auto" onclick="deleteBook({{ book.id }})">Delete</button>
 </li>

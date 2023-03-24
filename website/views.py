@@ -25,7 +25,7 @@ def search():
                 url = f'https://www.googleapis.com/books/v1/volumes?q={book}&langRestrict=en'
                 r = requests.get(url)
                 data = r.json()
-                
+                print(data)
                 return render_template('search.html', user=current_user, data=data)
         else:
             title = request.form.get('title')
@@ -34,7 +34,7 @@ def search():
             date = request.form.get('date')
             rating = request.form.get('rating')
             description = request.form.get('description')
-            imageLink = '.\static\missingCover.jpg'
+            imageLink = request.form.get('imageLink')
 
             new_book  = Book(title=title, authors=authors, publisher=publisher, date=date, rating=rating, description=description, imageLink=imageLink, user_id=current_user.id)
             print(new_book.title)
