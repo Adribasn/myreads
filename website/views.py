@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, flash, url_for,
 from flask_login import login_required, current_user
 import requests
 from . import db
-from .models import Book
+from .models import Book, User
 import json
 
 views = Blueprint('views', __name__)
@@ -36,7 +36,7 @@ def search():
             description = request.form.get('description')
             imageLink = request.form.get('imageLink')
 
-            existing_book = Book.query.filter_by(title=title, authors=authors, publisher=publisher, date=date, description=description).first()
+            existing_book = Book.query.filter_by(title=title, authors=authors, publisher=publisher, date=date, description=description, user_id=current_user.id).first()
 
             if existing_book:
                 flash('Book already saved.', category='error')
@@ -49,7 +49,28 @@ def search():
         
     return render_template('search.html', user=current_user)
 
+@views.route('/account', methods=['GET', 'POST'])
+@login_required
+def account():
+    return render_template('account.html', user=current_user)
+
+@views.route('/delete-user', methods=['POST'])
+@login_required
+def delete_user():
+    data = json.loads(request.data)
+    userId = data['userId']
+    user  = User.query.filter_by(id=userId).first()
+    
+    if user:
+        
+        db.session.delete(user)
+        db.session.commit()
+        flash('Account deleted.', category='success')
+    
+    return jsonify({})
+    
 @views.route('/delete-book', methods=['POST'])
+@login_required
 def delete_book():
     data = json.loads(request.data)
     bookId = data['bookId']
@@ -58,5 +79,7 @@ def delete_book():
         if book.user_id == current_user.id:
             db.session.delete(book)
             db.session.commit()
+            flash('Book deleted.', category='success')
 
     return jsonify({})
+
