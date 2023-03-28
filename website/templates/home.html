@@ -16,7 +16,7 @@
                 <p class="text-truncate mt-4 mb-0">{{ book.description }}</p>
                 <button class="btn text-decoration-underline" data-bs-toggle="modal" data-bs-target="#modal_{{ user.books.index(book) }}">read more</button> 
                 <div class="d-flex flex-column align-items-center mt-5">
-                    <i type="button" class="fa-solid fa-heart fa-lg" onclick="deleteBook({{ book.id }})"></i>
+                    <button class="btn" type="button"><i type="button" class="fa-solid fa-heart fa-lg" onclick="deleteBook({{ book.id }})"></i></button>
                 </div>
             </div>
         </div>

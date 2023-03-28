@@ -10,69 +10,63 @@
     </button>
 </form>
 {% if data %}
-<ul class="list-group mt-4 mb-4">
-{% for element in data['items'] %}
-<li class="list-group-item d-flex align-items-center">
-    {% if element['volumeInfo']['imageLinks'] is defined %}
-    <img src="{{ element['volumeInfo']['imageLinks']['thumbnail'] }}" class="img-fluid me-5"/>
-    {% else %}
-    <img src="{{ url_for('static', filename='missingCover.jpg') }}" class="img-fluid me-5"/>
-    {% endif %}
-    <div class="d-flex flex-column">
-        <h4 class="fw-bold">{{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</h4>
-        <p class="w-75">{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}</p>
-    </div>
-    <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#modal_{{ data['items'].index(element) }}">Add</button>
-</li>
-<div class="modal" tabindex="-1" id="modal_{{ data['items'].index(element) }}">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form method="POST">
-                <div class="modal-header">
-                    <h5 class="modal-title text-center">{{ element['volumeInfo']['title'] }} by {% if element['volumeInfo']['title'] %} {{ element['volumeInfo']['title'] }} {% else %} (Unknown) {% endif %}</h5>
+<form method="POST">
+    <div class="row mb-3">
+        {% for element in data['items'] %}
+        <div class="col-sm-3 gx-3 gy-3">
+            <div class="card h-100">
+                {% if element['volumeInfo']['imageLinks'] is defined %}
+                <img src="{{ element['volumeInfo']['imageLinks']['thumbnail'] }}" alt="cover" class="card-img">
+                <input type="hidden" name="imageLink" id="imageLink" value="{{ element['volumeInfo']['imageLinks']['thumbnail'] }}" />
+                {% else %}
+                <img src="{{ url_for('static', filename='missingCover.jpg') }}" alt="cover" class="card-img">
+                <input type="hidden" name="imageLink" id="imageLink" value="{{ url_for('static', filename='missingCover.jpg') }}" />
+                {% endif %}
+    
+                <div class="card-img-overlay d-flex flex-column">
+                    <h5 class="card-title">{{ element['volumeInfo']['title'] }}</h5>
                     <input type="hidden" name="title" id="title" value="{{ element['volumeInfo']['title'] }}">
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row border rounded-top">
-                            <div class="col border-end">
-                                <p class="fw-bold text-center">Author</p>
-                                <p class="text-center">{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</p>
-                                <input type="hidden" name="authors" id="authors" value="{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}">
-                            </div>
-                            <div class="col">
-                                <p class="fw-bold text-center">Publisher</p>
-                                <p class="text-center">{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}</p>
-                                <input type="hidden" name="publisher" id="publisher" value="{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}">
-                            </div>
-                        </div>
-                        <div class="row border">
-                            <p class="fw-bold text-center">Publishing Date</p>
-                            <p class="text-center">{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}</p>
-                            <input type="hidden" name="date" id="date" value="{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}">                    
-                        </div>
-                        <div class="row border rounded-bottom d-flex flex-column justify-content-center align-items-center">
-                            <p class="fw-bold text-center">Rating</p>
-                            <input type="number" name="rating" id="rating" min="0" max="5" step="1" class="form-control w-50 mb-2" placeholder="0" value="0">
-                        </div>
-                        <input type="hidden" name="description" id="description" value="{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}">  
-                        {% if element['volumeInfo']['imageLinks'] is defined %}
-                        <input type="hidden" name="imageLink" id="imageLink" value="{{ element['volumeInfo']['imageLinks']['thumbnail'] }}" />
-                        {% else %}
-                        <input type="hidden" name="imageLink" id="imageLink" value="{{ url_for('static', filename='missingCover.jpg') }}" />
-                        {% endif %}
+    
+                    <p>{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</p>
+                    <input type="hidden" name="authors" id="authors" value="{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}">
+                    
+                    <p>{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}</p>
+                    <input type="hidden" name="publisher" id="publisher" value="{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}">
+                    
+                    <p>{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}</p>
+                    <input type="hidden" name="date" id="date" value="{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}">                    
+                    
+                    <input type="number" name="rating" id="rating" min="0" max="5" step="1" class="form-control w-50 mb-2" placeholder="0" value="0">
+                    
+                    <p class="text-truncate mt-4 mb-0">{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}</p>
+                    <input type="hidden" name="description" id="description" value="{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}">  
+                    
+                    <button type="button" class="btn text-decoration-underline" data-bs-toggle="modal" data-bs-target="#modal_{{ data['items'].index(element) }}">read more</button> 
+                    <div class="d-flex flex-column align-items-center mt-5">
+                        <button class="btn"><i class="fa-regular fa-heart fa-lg" name="saveBook" id="saveBook"></i></button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" name="saveBook" id="saveBook">Save</button>                    
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-</div>
-{% endfor %}
-</ul>
+    
+        <div class="modal" tabindex="-1" id="modal_{{ data['items'].index(element) }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header d-flex flex-column align-items-center">
+                        <h5 class="modal-title">Description</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center">{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}</p>
+                    </div>
+                    <div class="modal-footer d-flex flex-column align-items-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>     
+</form>
 {% endif %}
 
 {% endblock %}
