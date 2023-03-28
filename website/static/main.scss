@@ -1,3 +1,47 @@
-$primary: purple;
+$primary: rgb(19, 241, 135);
+$success: rgb(112, 232, 174);
+$danger: rgb(207, 207, 207);
+$body-bg-dark: rgb(18, 19, 24);
+$body-color-dark: rgb(245, 245, 245);
 
 @import "./node_modules/bootstrap/scss/bootstrap.scss";
+@import "./node_modules/@fortawesome/fontawesome-free/css/all.css";
+@import "https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap";
+
+/* Custom bootstrap */
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+#coloredLogo {
+    color: $primary;
+}
+
+.card-img {
+    filter: blur(4px) brightness(50%);
+    transition: all .25s ease-in-out;
+    object-fit: cover;
+    height: 100%;
+}
+
+.card:hover > *:not(.card-img-overlay) {
+    transform: scale(1.05);
+}
+
+.card {
+    overflow: hidden;
+}
+
+.card-title {
+    font-weight: 600;
+}
+
+/* Custom fontawesome */
+.fa-heart {
+    color: $primary;
+}
+

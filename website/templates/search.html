@@ -14,7 +14,7 @@
 {% for element in data['items'] %}
 <li class="list-group-item d-flex align-items-center">
     {% if element['volumeInfo']['imageLinks'] is defined %}
-    <img src="{{ element['volumeInfo']['imageLinks']['smallThumbnail'] }}" class="img-fluid me-5"/>
+    <img src="{{ element['volumeInfo']['imageLinks']['thumbnail'] }}" class="img-fluid me-5"/>
     {% else %}
     <img src="{{ url_for('static', filename='missingCover.jpg') }}" class="img-fluid me-5"/>
     {% endif %}
@@ -53,11 +53,11 @@
                         </div>
                         <div class="row border rounded-bottom d-flex flex-column justify-content-center align-items-center">
                             <p class="fw-bold text-center">Rating</p>
-                            <input type="number" name="rating" id="rating" min="0" max="5" step="1" class="form-control w-50 mb-2" placeholder="0">
+                            <input type="number" name="rating" id="rating" min="0" max="5" step="1" class="form-control w-50 mb-2" placeholder="0" value="0">
                         </div>
                         <input type="hidden" name="description" id="description" value="{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}">  
                         {% if element['volumeInfo']['imageLinks'] is defined %}
-                        <input type="hidden" name="imageLink" id="imageLink" value="{{ element['volumeInfo']['imageLinks']['smallThumbnail'] }}" />
+                        <input type="hidden" name="imageLink" id="imageLink" value="{{ element['volumeInfo']['imageLinks']['thumbnail'] }}" />
                         {% else %}
                         <input type="hidden" name="imageLink" id="imageLink" value="{{ url_for('static', filename='missingCover.jpg') }}" />
                         {% endif %}

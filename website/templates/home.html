@@ -1,21 +1,60 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>{{ user.firstName }}, here are your saved books.</h1>
-<ul class="list-group">
+<h1 class="text-center mt-4">Hi {{ user.firstName }}, here are your saved books.</h1>
+<div class="row mb-3">
+    {% for book in user.books %}
+    <div class="col-sm-3 gx-3 gy-3">
+        <div class="card h-100">
+            <img src="{{ book.imageLink }}" alt="cover" class="card-img">
+            <div class="card-img-overlay d-flex flex-column">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p>{{ book.authors }}</p>
+                <p>{{ book.publisher }}</p>
+                <p>{{ book.date }}</p>
+                <p>{{ book.rating }}/5</p>
+                <p class="text-truncate mt-4 mb-0">{{ book.description }}</p>
+                <button class="btn text-decoration-underline" data-bs-toggle="modal" data-bs-target="#modal_{{ user.books.index(book) }}">read more</button> 
+                <div class="d-flex flex-column align-items-center mt-5">
+                    <i type="button" class="fa-solid fa-heart fa-lg" onclick="deleteBook({{ book.id }})"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" id="modal_{{ user.books.index(book) }}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header d-flex flex-column align-items-center">
+                    <h5 class="modal-title">Description</h5>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">{{ book.description }}</p>
+                </div>
+                <div class="modal-footer d-flex flex-column align-items-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<!--
+<ul class="list-group mt-4">
 {% for book in user.books %}
-<li class="list-group-item d-flex align-items-center">
+<li class="list-group-item d-flex align-items-center mt-2 mb-2">
     <img src="{{ book.imageLink }}" alt="cover" class="image-fluid me-5">
     <div class="w-50">
         <h5 class="fw-bold">{{ book.title }}</h5>
         <h5>{{ book.authors }}</h5>
         <h5>{{ book.publisher }}</h5>
         <h5>{{ book.date }}</h5>
-        <h5>{{ book.rating }}</h5>
+        <h5>{{ book.rating }}/5</h5>
         <p>{{ book.description }}</p>
     </div>
-    <button class="btn btn-danger ms-auto" onclick="deleteBook({{ book.id }})">Delete</button>
+    <button class="btn ms-auto" onclick="deleteBook({{ book.id }})"><i class="fa-solid fa-heart fa-lg"></i></button>
 </li>
 {% endfor %}
 </ul>
+-->
 {% endblock %}
