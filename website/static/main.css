@@ -12033,6 +12033,11 @@ body {
   font-weight: 600;
 }
 
+.read-more-btn {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .fa-heart {
   color: rgb(19, 241, 135);
 }/*# sourceMappingURL=main.css.map */
