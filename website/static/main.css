@@ -11993,7 +11993,6 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-/* Custom bootstrap */
 body {
   font-family: "Montserrat", sans-serif;
 }
@@ -12018,6 +12017,14 @@ body {
   transform: scale(1.05);
 }
 
+.truncated-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
 .card {
   overflow: hidden;
 }
@@ -12026,7 +12033,6 @@ body {
   font-weight: 600;
 }
 
-/* Custom fontawesome */
 .fa-heart {
   color: rgb(19, 241, 135);
 }/*# sourceMappingURL=main.css.map */

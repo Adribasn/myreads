@@ -10,63 +10,82 @@
     </button>
 </form>
 {% if data %}
-<form method="POST">
-    <div class="row mb-3">
-        {% for element in data['items'] %}
-        <div class="col-sm-3 gx-3 gy-3">
-            <div class="card h-100">
-                {% if element['volumeInfo']['imageLinks'] is defined %}
-                <img src="{{ element['volumeInfo']['imageLinks']['thumbnail'] }}" alt="cover" class="card-img">
-                <input type="hidden" name="imageLink" id="imageLink" value="{{ element['volumeInfo']['imageLinks']['thumbnail'] }}" />
-                {% else %}
-                <img src="{{ url_for('static', filename='missingCover.jpg') }}" alt="cover" class="card-img">
-                <input type="hidden" name="imageLink" id="imageLink" value="{{ url_for('static', filename='missingCover.jpg') }}" />
-                {% endif %}
-    
-                <div class="card-img-overlay d-flex flex-column">
-                    <h5 class="card-title">{{ element['volumeInfo']['title'] }}</h5>
-                    <input type="hidden" name="title" id="title" value="{{ element['volumeInfo']['title'] }}">
-    
-                    <p>{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</p>
-                    <input type="hidden" name="authors" id="authors" value="{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}">
-                    
-                    <p>{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}</p>
-                    <input type="hidden" name="publisher" id="publisher" value="{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}">
-                    
-                    <p>{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}</p>
-                    <input type="hidden" name="date" id="date" value="{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}">                    
-                    
-                    <input type="number" name="rating" id="rating" min="0" max="5" step="1" class="form-control w-50 mb-2" placeholder="0" value="0">
-                    
-                    <p class="text-truncate mt-4 mb-0">{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}</p>
-                    <input type="hidden" name="description" id="description" value="{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}">  
-                    
-                    <button type="button" class="btn text-decoration-underline" data-bs-toggle="modal" data-bs-target="#modal_{{ data['items'].index(element) }}">read more</button> 
-                    <div class="d-flex flex-column align-items-center mt-5">
-                        <button class="btn"><i class="fa-regular fa-heart fa-lg" name="saveBook" id="saveBook"></i></button>
-                    </div>
+<div class="row mb-3">
+    {% for element in data['items'] %}
+    <div class="col-sm-3 gx-3 gy-3">
+        <form class="card h-100" method="POST">
+            {% if element['volumeInfo']['imageLinks'] is defined %}
+            <img src="{{ element['volumeInfo']['imageLinks']['thumbnail'] }}" alt="cover" class="card-img">
+            <input type="hidden" name="imageLink" id="imageLink" value="{{ element['volumeInfo']['imageLinks']['thumbnail'] }}" />
+            {% else %}
+            <img src="{{ url_for('static', filename='missingCover.jpg') }}" alt="cover" class="card-img">
+            <input type="hidden" name="imageLink" id="imageLink" value="{{ url_for('static', filename='missingCover.jpg') }}" />
+            {% endif %}
+
+            <div class="card-img-overlay d-flex flex-column">
+                <h5 class="card-title truncated-title" title="{{ element['volumeInfo']['title'] }}">{{ element['volumeInfo']['title'] }}</h5>
+                <input type="hidden" name="title" id="title" value="{{ element['volumeInfo']['title'] }}">
+
+                <p class="text-truncate" title="{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}">{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</p>
+                <input type="hidden" name="authors" id="authors" value="{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}">
+                
+                <p class="text-truncate" title="{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}">{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}</p>
+                <input type="hidden" name="publisher" id="publisher" value="{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}">
+                
+                <p>{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}</p>
+                <input type="hidden" name="date" id="date" value="{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}">                    
+                
+                <input type="number" name="rating" id="rating" min="0" max="5" step="1" class="form-control w-50 mb-3" placeholder="0" value="0">
+                
+                <p class="text-truncate" title="{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}">{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}</p>
+                <input type="hidden" name="description" id="description" value="{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}">  
+                
+                <button type="button" class="btn text-decoration-underline" data-bs-toggle="modal" data-bs-target="#modal_{{ data['items'].index(element) }}">read more</button> 
+                <div class="d-flex flex-column align-items-center mt-auto mb-3">
+                    <button class="btn"><i class="fa-regular fa-heart fa-lg" name="saveBook" id="saveBook"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal" tabindex="-1" id="modal_{{ data['items'].index(element) }}">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header d-flex flex-column align-items-center">
+                    <h5 class="modal-title fw-bold">Book info</h5>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <h5 class="text-center">Title</h5>
+                            <p class="text-center mb-0">{{ element['volumeInfo']['title'] }}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5 class="text-center">Author(s)</h5>
+                            <p class="text-center mb-0">{% if element['volumeInfo']['authors'] %} {{ ', '.join(element['volumeInfo']['authors']) }} {% else %} (Unknown) {% endif %}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5 class="text-center">Publisher</h5>
+                            <p class="text-center mb-0">{% if element['volumeInfo']['publisher'] %} {{ element['volumeInfo']['publisher'] }} {% else %} (Unknown) {% endif %}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5 class="text-center">Publishing date</h5>
+                            <p class="text-center mb-0">{% if element['volumeInfo']['publishedDate'] %} {{ element['volumeInfo']['publishedDate'] }} {% else %} (Unknown) {% endif %}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5 class="text-center">Description</h5>
+                            <p class="text-center mb-0">{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer d-flex flex-column align-items-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
-    
-        <div class="modal" tabindex="-1" id="modal_{{ data['items'].index(element) }}">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header d-flex flex-column align-items-center">
-                        <h5 class="modal-title">Description</h5>
-                    </div>
-                    <div class="modal-body">
-                        <p class="text-center">{% if element['volumeInfo']['description'] %} {{ element['volumeInfo']['description'] }} {% else %} (Unknown) {% endif %}</p>
-                    </div>
-                    <div class="modal-footer d-flex flex-column align-items-center">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>     
-</form>
+    </div>
+    {% endfor %}
+</div>     
 {% endif %}
 
 {% endblock %}

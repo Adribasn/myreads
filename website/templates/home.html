@@ -8,14 +8,14 @@
         <div class="card h-100">
             <img src="{{ book.imageLink }}" alt="cover" class="card-img">
             <div class="card-img-overlay d-flex flex-column">
-                <h5 class="card-title">{{ book.title }}</h5>
-                <p>{{ book.authors }}</p>
-                <p>{{ book.publisher }}</p>
+                <h5 class="card-title truncated-title" title="{{ book.title }}">{{ book.title }}</h5>
+                <p class="text-truncate" title="{{ book.authors }}">{{ book.authors }}</p>
+                <p class="text-truncate" title="{{ book.publisher }}">{{ book.publisher }}</p>
                 <p>{{ book.date }}</p>
                 <p>{{ book.rating }}/5</p>
-                <p class="text-truncate mt-4 mb-0">{{ book.description }}</p>
+                <p class="text-truncate" title="{{ book.description }}">{{ book.description }}</p>
                 <button class="btn text-decoration-underline" data-bs-toggle="modal" data-bs-target="#modal_{{ user.books.index(book) }}">read more</button> 
-                <div class="d-flex flex-column align-items-center mt-5">
+                <div class="d-flex flex-column align-items-center mt-auto mb-3">
                     <button class="btn" type="button"><i type="button" class="fa-solid fa-heart fa-lg" onclick="deleteBook({{ book.id }})"></i></button>
                 </div>
             </div>
@@ -26,10 +26,31 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header d-flex flex-column align-items-center">
-                    <h5 class="modal-title">Description</h5>
+                    <h4 class="modal-title fw-bold">Book info</h5>
                 </div>
                 <div class="modal-body">
-                    <p class="text-center">{{ book.description }}</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <h5 class="text-center">Title</h5>
+                            <p class="text-center mb-0">{{ book.title }}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5 class="text-center">Author(s)</h5>
+                            <p class="text-center mb-0">{{ book.authors }}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5 class="text-center">Publisher</h5>
+                            <p class="text-center mb-0">{{ book.publisher }}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5 class="text-center">Publishing date</h5>
+                            <p class="text-center mb-0">{{ book.date }}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h5 class="text-center">Description</h5>
+                            <p class="text-center mb-0">{{ book.description }}</p>
+                        </li>
+                    </ul>
                 </div>
                 <div class="modal-footer d-flex flex-column align-items-center">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
