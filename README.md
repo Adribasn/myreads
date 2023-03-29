@@ -14,3 +14,15 @@ reptitive code present in nearly all projects as is common in vanilla CSS).
 The objective of this project was to swim into the deep end for the first time, to build something
 that isn't solely for practice but that could realistically be used by someone. I can confidently
 state that, in my opinion, this objective was fullfilled.
+
+![Screenshot (52)](https://user-images.githubusercontent.com/68373594/228550227-6482c39c-6f58-4a15-a228-016117765d71.png)
+
+![Screenshot (54)](https://user-images.githubusercontent.com/68373594/228550232-31e1efb1-640d-4091-bba3-28d9b87143a3.png)
+
+![Screenshot (55)](https://user-images.githubusercontent.com/68373594/228550238-e6bc94f2-41d6-4b04-a32f-1960c3b5afd8.png)
+
+![Screenshot (56)](https://user-images.githubusercontent.com/68373594/228550244-4e6db579-2846-4a3b-9a9f-5a5e565a7630.png)
+
+![Screenshot (57)](https://user-images.githubusercontent.com/68373594/228550247-f1c8f75f-0bf6-493d-a60a-666c1415063a.png)
+
+![Screenshot (51)](https://user-images.githubusercontent.com/68373594/228550253-8f688f2e-c8a6-4651-bbb0-20da8980067e.png)
