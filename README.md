@@ -8,7 +8,7 @@ project I really struggled at first due to the fact that not all responses from 
 This was also my first time using npm and SCSS to override Bootstrap5 which really put into perspective how frameworks
 can really speed up development time tremendously by automating menial tasks. Prior to this project I had no idea 
 that frameworks could be this powerful when not used as a crutch, but rather as a way to allow someone to really
-focus on the sections of the project at hand that truly require the most expertise (instead of having to rewrite
+focus on the sections of the project that truly require the most expertise (instead of having to rewrite
 reptitive code present in nearly all projects as is common in vanilla CSS).
 
 The objective of this project was to swim into the deep end for the first time, to build something
